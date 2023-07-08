@@ -36,3 +36,7 @@ setStructElement (Comp (StructType name types) (Struct comps)) element (Comp _ty
       (StructType name types) 
       (Struct  $ (element , Comp _type value) : filter (\(x, y) -> x /= element) comps)
 
+getStructElement :: Comp -> String -> Comp
+getStructElement (Comp _ (Struct list)) element
+  | element `elem` ( map fst list ) = snd $ head $ filter (\(x, _) -> x == element) list   
+
