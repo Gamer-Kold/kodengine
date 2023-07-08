@@ -10,8 +10,11 @@ data Comp = Comp ComponentType CompData deriving Show
 newtype Component = Component { getComp :: Component } deriving Show
 
 setUnion :: Comp -> String -> Comp -> Comp
-setUnion (Comp x y) (Comp (UnionType name xs) _ )
- | x `elem`  map snd xs = Comp (UnionType name xs) (Union x (Comp x y))
+setUnion (Comp (UnionType x typelist) (Union _ _)) variant (Comp comptype compdata) 
+  | (variant, comptype) `elem` typelist =
+    Comp
+      (UnionType x typelist)
+      (Union variant (Comp comptype compdata))
 
 getUnionValue :: Comp -> Comp
 getUnionValue (Comp _ (Union _ x)) = x
